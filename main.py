@@ -1,5 +1,6 @@
 from typing import Union
 from fastapi import FastAPI
+import json
 from db_example import registros # Se importa la variable "registros" del archivo db_example
 
 app = FastAPI()
@@ -14,7 +15,12 @@ def read_root():
 def read_item(item_id: int, q: Union[str, None] = None):
     print(registros) # la variable registros la usamos acá como queremos
 
-    # TO DO:
-        # "registros" es una lista de tuples y hay que convertirlo a JSON
+    result = []
+    for index, fila in enumerate(registros):
+        result.append({'id': fila[0], 'name': fila[1], 'age': fila[2]})
+    
+    mi_json = json.loads(json.dumps(result))
+        
+    print(type(mi_json))
 
-    return {"item_id": item_id, "q": q}
+    return mi_json
